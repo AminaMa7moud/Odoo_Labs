@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <record id="hms_patient_action" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">list,form</field>            
+        </record>
+        <record id="hms_patient_list_view" model="ir.ui.view">
+            <field name="name">HMS list view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="age"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="hms_patient_form_view" model="ir.ui.view">
+            <field name="name">HMS form view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient Form">
+                    <header>
+                        <button name="action_state" type="object" string="states"/>
+                        <field name = "states" widget = "statusbar"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="basic_info">
+                                <field name="first_name"/>
+                                <field name="last_name"/>
+                                <field name="email"/>
+                                <field name="birth_date"/>
+                                <field name="age"/>
+                                
+                            </group>
+                            <group string="history_info" >
+                                
+                                <field name="blood_type"/>
+                                <field name= "cr_ratio" required = "1"/>
+                                <field name= "pcr" required = "1"/>
+                                
+                                
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Medical History">
+                                <field name="history" invisible= "age>=50"/>
+                            </page>
+                            <page string="department">
+                                <group>
+                                    <field name="department_id" domain="[('is_opened', '=', True)]"/>
+                                </group>
+                            </page>
+                            <page string="doctors">
+                                <group string="doctor">
+                                    <field name="doctor_ids" widget="many2many_tags" options="{'no_create': True}" readonly="not department_id"/>                                
+                                </group>
+                            </page>
+                            <page string="capacity">
+                                <group string="capacity">
+                                    <field name="department_id"/>
+                                    <field name="department_capacity"/>
+                                </group>
+                            </page>
+                            <page string="Log History">
+                                <field name="log_ids">
+                                    <list>
+                                        <field name="created_by"/>
+                                        <field name="date"/>
+                                        <field name="description"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        
+        <menuitem id="hms_root_menu" name="hospital"/>
+        <menuitem id= "hms_patient_menu" name="Patients" parent="hms_root_menu" action="hms_patient_action"/>
+    </data>
+</odoo>

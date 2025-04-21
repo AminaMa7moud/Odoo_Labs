@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="crm_customer_view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">crm.customer.view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_registry']" position="after">
+                    <field name="custom_field"/>
+                    <field name="related_patient_id"/>
+                    <field name="website"/>
+                </xpath>
+                <xpath expr="//form" position="inside">
+                    <header>
+                        <button name="unlink" type="object" string="Delete" class="btn-danger" icon="fa-trash" confirm="Are you sure you want to delete this record?"/>
+                    </header>
+                </xpath>
+
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
